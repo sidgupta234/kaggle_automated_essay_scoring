@@ -66,7 +66,7 @@ def vocab_word_freq_score(dataset_row, english_vocab_frequency_dict):
             #freq_score += math.log(1/english_vocab_frequency_dict[word])
             #print(word)
             
-    return math.log(freq_score)
+    return math.log(freq_score+1)
        
 dataset['full_text'] = dataset.apply(vocab_clean_dataset, axis = 1)
 dataset['text_length'] = dataset.apply(lambda x: len(x['full_text'].split()), axis = 1)

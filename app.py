@@ -2,8 +2,11 @@ import streamlit as st
 import pandas as pd
 import streamlit.components.v1 as components
 from tester import compute_vocab_conventions_score
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+
 #from billboard_seaborn import *
-st.set_page_config(page_title='Music Dashboard', page_icon = "favicon.png", layout = 'wide', initial_sidebar_state = 'auto')
+st.set_page_config(page_title='Essay Rater', page_icon = "favicon.png", layout = 'wide', initial_sidebar_state = 'auto')
 footer="""<style>
 a:link , a:visited{
 color: white;
@@ -26,7 +29,7 @@ text-align: center;
 }
 </style>
 <div class="footer">
-<p><b>Developed by <a style='text-align: left;' href="https://www.languageof.me/" target="_blank">Siddharth Gupta</a> for music aficionados</b>
+<p><b>Developed by <a style='text-align: left;' href="https://www.languageof.me/" target="_blank">Siddharth Gupta</a> for NLP/NLU enthusiasts</b>
 </p>
 </div>
 """
@@ -40,16 +43,29 @@ st.markdown(footer, unsafe_allow_html=True)
 
 with header and c1:
      st.title("How good are your Vocabulary and Conventions?")
+     st.write("Writing is a foundational skill. Sadly, it's one few students are able to hone, often because writing tasks are infrequently assigned in school. A rapidly growing student population, students learning English as a second language, known as English Language Learners (ELLs), are especially affected by the lack of practice. While automated feedback tools make it easier for teachers to assign more writing tasks, they are not designed with ELLs in mind.")
+     st.write("This project is aimed to build a submission for the Kaggle contest (https://www.kaggle.com/competitions/feedback-prize-english-language-learning)")
 
+     st.write("Essays on this website will be rated from a scale of 1-5 on the basis of Vocabulary and Conventions.")
 with c2:
-    a = st.text_input("Enter your Essay to get it rated", value="Sample Text")
-    df = pd.DataFrame([a], columns=["full_text"])
+    essay = st.text_input("Enter your Essay to get it rated", value="Hello World")
+    df = pd.DataFrame([essay], columns=["full_text"])
     #print(df)
     values = compute_vocab_conventions_score(df)
-    vocab = "Vocabulary score is " + str(values[0][0])
-    conventions = "Conventions score is " + str(values[1][0])
+    vocab = "Vocabulary score is " + str(max(values[0][0], 1))
+    conventions = "Conventions score is " + str(max(values[1][0], 1))
     st.text(vocab)
     st.text(conventions)
+    fig, ax = plt.subplots()
+    wordcloud = WordCloud(stopwords=None, min_word_length=0).generate(essay)
+    plt.imshow(wordcloud, interpolation='bilinear')
+    plt.axis("off")
+    plt.show()
+    st.pyplot(fig)
+
+with c1:
+    wordcloud = WordCloud().generate(essay)
+
 #with dataset and c1:
 
 #     song_iframe = st.empty()
