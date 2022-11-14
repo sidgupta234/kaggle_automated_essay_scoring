@@ -4,7 +4,7 @@ import streamlit.components.v1 as components
 from tester import compute_vocab_conventions_score
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
-
+showWarningOnDirectExecution = False
 #from billboard_seaborn import *
 st.set_page_config(page_title='Essay Rater', page_icon = "favicon.png", layout = 'wide', initial_sidebar_state = 'auto')
 footer="""<style>
